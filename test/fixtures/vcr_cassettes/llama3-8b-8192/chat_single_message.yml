@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3-8b-8192","messages":[{"role":"user","content":"What''s
+        the next day after Wednesday?"}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 09:47:52 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '15000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '14986'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 56ms
+      X-Request-Id:
+      - req_01hvxefc8df768f7wyxpfrpk6g
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=GhXMH_psGU1r9KFOuhU5nYfY.PBb70pMhIxqr0gorQw-1713606472-1.0.1.1-My46Dy8_olefg5Hwy5UH0vYfiQSLscDeK2JEbLaYuBdEpobV61S78YVSmpo8O_Rvd2h72fL5semtEPoPP5Ff9w;
+        path=/; expires=Sat, 20-Apr-24 10:17:52 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 8774372129dbaaf6-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-bea7a3dd-371e-41d4-8890-2707ac629338","object":"chat.completion","created":1713606472,"model":"llama3-8b-8192","choices":[{"index":0,"message":{"role":"assistant","content":"The
+        next day after Wednesday is Thursday."},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":18,"prompt_time":0.012,"completion_tokens":8,"completion_time":0.009,"total_tokens":26,"total_time":0.020999999999999998},"system_fingerprint":"fp_5f1793d315","x_groq":{"id":"req_01hvxefc8df768f7wyxpfrpk6g"}}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 09:47:52 GMT
+recorded_with: VCR 6.2.0

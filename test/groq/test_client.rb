@@ -25,4 +25,28 @@ class TestGroqClient < Minitest::Test
     client = Groq::Client.new
     assert_equal "llama3-8b-8192", client.model_id
   end
+
+  def test_chat_simple_text_message
+    VCR.use_cassette("llama3-8b-8192/chat_single_message") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      response = client.chat("What's the next day after Wednesday?")
+      assert_equal response, {
+        "role" => "assistant", "content" => "The next day after Wednesday is Thursday."
+      }
+    end
+  end
+
+  def test_chat_messages
+    VCR.use_cassette("llama3-8b-8192/chat_messages") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      response = client.chat([
+        {role: "user", content: "What's the next day after Wednesday?"},
+        {role: "assistant", content: "The next day after Wednesday is Thursday."},
+        {role: "user", content: "What's the next day after that?"}
+      ])
+      assert_equal response, {
+        "role" => "assistant", "content" => "The next day after Thursday is Friday."
+      }
+    end
+  end
 end

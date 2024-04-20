@@ -8,6 +8,8 @@ class Groq::Client
   ].freeze
   attr_reader(*CONFIG_KEYS, :faraday_middleware)
 
+  class Error < StandardError; end
+
   def initialize(config = {}, &faraday_middleware)
     CONFIG_KEYS.each do |key|
       # Set instance variables like api_key.
@@ -15,6 +17,24 @@ class Groq::Client
       instance_variable_set(:"@#{key}", config[key] || Groq.configuration.send(key))
     end
     @faraday_middleware = faraday_middleware
+  end
+
+  def chat(messages, model_id: nil)
+    unless messages.is_a?(Array) || messages.is_a?(String)
+      raise ArgumentError, "require messages to be an Array or String"
+    end
+
+    if messages.is_a?(String)
+      messages = [{role: "user", content: messages}]
+    end
+
+    model_id ||= @model_id
+    response = post(path: "/openai/v1/chat/completions", body: {model: model_id, messages: messages})
+    if response.status == 200
+      response.body.dig("choices", 0, "message")
+    else
+      raise Error, "Request failed with status #{response.status}: #{response.body}"
+    end
   end
 
   def post(path:, body:)

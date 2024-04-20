@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3-8b-8192","messages":[{"role":"user","content":"What''s
+        the next day after Wednesday?"},{"role":"assistant","content":"The next day
+        after Wednesday is Thursday."},{"role":"user","content":"What''s the next
+        day after that?"}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 09:49:03 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '15000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '14959'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 164ms
+      X-Request-Id:
+      - req_01hvxehhjaf7hvz14phcyd103k
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=JMS.12XPGvqYFtjlT3o0vSDesvztUu3O7q.BqVdtxWY-1713606543-1.0.1.1-4Eua13WNQV9dwJBQOroLiHYixONX.4eTW.QRu3LBo5ElcIHo8.nX5YmlGJ42EfQAtiYKXnXHhPN2v6zmDXA.Qw;
+        path=/; expires=Sat, 20-Apr-24 10:19:03 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 877438dcba78573b-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-613b1037-f63d-469d-a0cf-e0bc861d961e","object":"chat.completion","created":1713606543,"model":"llama3-8b-8192","choices":[{"index":0,"message":{"role":"assistant","content":"The
+        next day after Thursday is Friday."},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":44,"prompt_time":0.029,"completion_tokens":8,"completion_time":0.011,"total_tokens":52,"total_time":0.04},"system_fingerprint":"fp_5f1793d315","x_groq":{"id":"req_01hvxehhjaf7hvz14phcyd103k"}}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 09:49:02 GMT
+recorded_with: VCR 6.2.0

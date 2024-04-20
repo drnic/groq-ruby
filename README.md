@@ -32,6 +32,22 @@ end
 client = Groq::Client.new
 ```
 
+There is a simple chat function to send messages to a model:
+
+```ruby
+# either pass a single message and get a single response
+client.chat("Hello, world!")
+=> {"role"=>"assistant", "content"=>"Hello there! It's great to meet you!"}
+
+# or pass in a messages array containing multiple messages between user and assistant
+client.chat([
+    {role: "user", content: "What's the next day after Wednesday?"},
+    {role: "assistant", content: "The next day after Wednesday is Thursday."},
+    {role: "user", content: "What's the next day after that?"}
+])
+# => {"role" => "assistant", "content" => "The next day after Thursday is Friday."}
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
