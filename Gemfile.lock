@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    groq (0.1.0)
+    groq (0.2.0)
       activesupport (> 5)
       faraday (~> 2.0)
       json
