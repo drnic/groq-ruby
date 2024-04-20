@@ -4,6 +4,7 @@ class Groq::Client
   CONFIG_KEYS = %i[
     api_key
     api_url
+    model_id
   ].freeze
   attr_reader(*CONFIG_KEYS, :faraday_middleware)
 

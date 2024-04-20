@@ -36,4 +36,12 @@ class Groq::Model
       model_card: "https://huggingface.co/google/gemma-1.1-7b-it"
     }
   ]
+
+  def self.default_model
+    MODELS.first
+  end
+
+  def self.default_model_id
+    default_model[:model_id]
+  end
 end

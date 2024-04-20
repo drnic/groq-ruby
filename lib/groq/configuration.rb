@@ -1,6 +1,6 @@
 class Groq::Configuration
   attr_writer :api_key
-  attr_accessor :api_url, :request_timeout, :extra_headers
+  attr_accessor :model_id, :api_url, :request_timeout, :extra_headers
 
   DEFAULT_API_URL = "https://api.groq.com"
   DEFAULT_REQUEST_TIMEOUT = 5
@@ -9,6 +9,7 @@ class Groq::Configuration
 
   def initialize
     @api_key = ENV["GROQ_API_KEY"]
+    @model_id = Groq::Model.default_model_id
     @api_url = DEFAULT_API_URL
     @request_timeout = DEFAULT_REQUEST_TIMEOUT
     @extra_headers = {}

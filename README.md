@@ -22,11 +22,12 @@ gem install groq
 - Use the `Groq::Client` to interact with Groq and your favourite model.
 
 ```ruby
-client = Groq::Client.new # uses ENV["GROQ_API_KEY"]
-client = Groq::Client.new(api_key: "...")
+client = Groq::Client.new # uses ENV["GROQ_API_KEY"] and "llama3-8b-8192"
+client = Groq::Client.new(api_key: "...", model_id: "llama3-8b-8192")
 
 Groq.configuration do |config|
   config.api_key = "..."
+  config.model_id = "llama3-70b-8192"
 end
 client = Groq::Client.new
 ```
