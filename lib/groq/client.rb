@@ -22,7 +22,7 @@ class Groq::Client
   end
 
   # TODO: support stream: true; or &stream block
-  def chat(messages, model_id: nil, tools: nil, max_tokens: nil, temperature: nil)
+  def chat(messages, model_id: nil, tools: nil, max_tokens: nil, temperature: nil, json: false)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
     end
@@ -38,7 +38,8 @@ class Groq::Client
       messages: messages,
       tools: tools,
       max_tokens: max_tokens || @max_tokens,
-      temperature: temperature || @temperature
+      temperature: temperature || @temperature,
+      response_format: json ? {type: "json_object"} : nil
     }.compact
     response = post(path: "/openai/v1/chat/completions", body: body)
     if response.status == 200

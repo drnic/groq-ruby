@@ -74,6 +74,17 @@ class TestGroqClient < Minitest::Test
     end
   end
 
+  def test_json_mode
+    VCR.use_cassette("llama3-8b-8192/chat_json_mode") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      response = client.chat([
+        S("Reply with JSON. Use {\"number\": 7} for the answer."),
+        U("What's 3+4?")
+      ], json: true)
+      assert_equal response, {"role" => "assistant", "content" => "{\"number\": 7}"}
+    end
+  end
+
   def test_tools_weather_report
     VCR.use_cassette("mixtral-8x7b-32768/chat_tools_weather_report") do
       client = Groq::Client.new(model_id: "mixtral-8x7b-32768")

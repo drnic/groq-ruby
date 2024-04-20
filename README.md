@@ -43,6 +43,19 @@ include Groq::Helpers
 # => {"role"=>"assistant", "content"=>"Cat"}
 ```
 
+JSON mode:
+
+```ruby
+response = @client.chat([
+  S("Reply with JSON. Use {\"number\": 7} for the answer."),
+  U("What's 3+4?")
+], json: true)
+# => {"role"=>"assistant", "content"=>"{\"number\": 7}"}
+
+JSON.parse(response["content"])
+# => {"number"=>7}
+```
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
@@ -188,6 +201,30 @@ Assistant reply with model mixtral-8x7b-32768:
 {"role"=>"assistant", "content"=>"Hello! It's nice to meet you. Is there something specific you would like to know or talk about? I'm here to help answer any questions you have to the best of my ability. I can provide information on a wide variety of topics, so feel free to ask me anything. I'm here to assist you."}
 Assistant reply with model gemma-7b-it:
 {"role"=>"assistant", "content"=>"Hello to you too! 👋🌎 It's great to hear from you. What would you like to talk about today? 😊"}
+```
+
+### JSON mode
+
+JSON mode is a beta feature that guarantees all chat completions are valid JSON.
+
+To use JSON mode:
+
+1. Pass `json: true` to the `chat()` call
+2. Provide a system message that contains `JSON` in the content, e.g. `S("Reply with JSON")`
+
+A good idea is to provide an example JSON schema in the system message that you'd prefer to receive.
+
+Other suggestions at [JSON mode (beta)](https://console.groq.com/docs/text-chat#json-mode-object-object) Groq docs page.
+
+```ruby
+response = @client.chat([
+  S("Reply with JSON. Use {\n\"number\": 7\n} for the answer."),
+  U("What's 3+4?")
+], json: true)
+# => {"role"=>"assistant", "content"=>"{\n\"number\": 7\n}"}
+
+JSON.parse(response["content"])
+# => {"number"=>7}
 ```
 
 ### Tools/Functions

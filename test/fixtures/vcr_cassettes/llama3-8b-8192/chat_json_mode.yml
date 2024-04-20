@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3-8b-8192","messages":[{"role":"system","content":"Reply
+        with JSON. Use {\"number\": 7} for the answer."},{"role":"user","content":"What''s
+        3+4?"}],"max_tokens":1024,"temperature":1,"response_format":{"type":"json_object"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 21:26:05 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '15000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '14976'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 96ms
+      X-Request-Id:
+      - req_01hvypdv88ey5ta7sn9f8d8gqd
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=bY2ovym7R1zybmfXH7x7dwrYRjZ41LBVtrzEJ.Vqvnc-1713648365-1.0.1.1-Ko7Z7a99TnQ.kC1cW1jAqJZqci19Y.Q3mUCpr64M9o9MY6l6xtjbAdoBFEwq8vDFg8HlJZls_gTvbMKfOeXqyw;
+        path=/; expires=Sat, 20-Apr-24 21:56:05 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 877835e78e455c05-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-84d9e81b-9ede-4613-8467-b2940364ded9","object":"chat.completion","created":1713648365,"model":"llama3-8b-8192","choices":[{"index":0,"message":{"role":"assistant","content":"{\"number\":
+        7}"},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":41,"prompt_time":0.057,"completion_tokens":6,"completion_time":0.009,"total_tokens":47,"total_time":0.066},"system_fingerprint":"fp_dadc9d6142","x_groq":{"id":"req_01hvypdv88ey5ta7sn9f8d8gqd"}}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 21:26:05 GMT
+recorded_with: VCR 6.2.0
