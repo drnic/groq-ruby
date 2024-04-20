@@ -49,4 +49,20 @@ class TestGroqClient < Minitest::Test
       }
     end
   end
+
+  include Groq::Helpers
+  def test_chat_messages_with_U_A_helpers
+    VCR.use_cassette("llama3-8b-8192/chat_messages") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      # and with U/A helper methods
+      response = client.chat([
+        U("What's the next day after Wednesday?"),
+        A("The next day after Wednesday is Thursday."),
+        U("What's the next day after that?")
+      ])
+      assert_equal response, {
+        "role" => "assistant", "content" => "The next day after Thursday is Friday."
+      }
+    end
+  end
 end

@@ -48,6 +48,21 @@ client.chat([
 # => {"role" => "assistant", "content" => "The next day after Thursday is Friday."}
 ```
 
+We also have some handy `U` and `A` methods to produce the `{role:, content:}` hash:
+
+```ruby
+include Groq::Helpers
+client.chat([
+    U("Hi"),
+    A("Hello back. Ask me anything. I'll reply with 'cat'"),
+    U("Favourite food?")
+])
+# => {"role"=>"assistant", "content"=>"Um... CAT"}
+# => {"role"=>"assistant", "content"=>"Not a cat! It's a pizza!"}
+# => {"role"=>"assistant", "content"=>"Pizza"}
+# => {"role"=>"assistant", "content"=>"Cat"}
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
