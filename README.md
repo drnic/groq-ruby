@@ -6,9 +6,32 @@ Groq Cloud runs LLM models fast and cheap. Llama 3, Mixtrel, Gemma, and more at 
 
 Speed and pricing at 2024-04-21.
 
-You can interact with their API using any Ruby HTTP library by following their documentation at <https://console.groq.com/docs/quickstart>.
+## Groq Cloud API
+
+You can interact with their API using any Ruby HTTP library by following their documentation at <https://console.groq.com/docs/quickstart>
+
+The Groq Cloud API looks to be copying a subset of the OpenAI API. For example, you perform chat completions at `https://api.groq.com/openai/v1/chat/completions` with the same POST body schema as OpenAI. The Tools support looks to have the same schema for defining tools/functions.
+
+So you can write your own Ruby client code to interact with the Groq Cloud API.
 
 Or you can use this convenience RubyGem with some nice helpers to get you started.
+
+```ruby
+client = Groq::Client.new
+client.chat("Hello, world!")
+=> {"role"=>"assistant", "content"=>"Hello there! It's great to meet you!"}
+
+include Groq::Helpers
+client.chat([
+    U("Hi"),
+    A("Hello back. Ask me anything. I'll reply with 'cat'"),
+    U("Favourite food?")
+])
+# => {"role"=>"assistant", "content"=>"Um... CAT"}
+# => {"role"=>"assistant", "content"=>"Not a cat! It's a pizza!"}
+# => {"role"=>"assistant", "content"=>"Pizza"}
+# => {"role"=>"assistant", "content"=>"Cat"}
+```
 
 ## Installation
 
@@ -127,6 +150,16 @@ Assistant reply with model mixtral-8x7b-32768:
 {"role"=>"assistant", "content"=>"Hello! It's nice to meet you. Is there something specific you would like to know or talk about? I'm here to help answer any questions you have to the best of my ability. I can provide information on a wide variety of topics, so feel free to ask me anything. I'm here to assist you."}
 Assistant reply with model gemma-7b-it:
 {"role"=>"assistant", "content"=>"Hello to you too! 👋🌎 It's great to hear from you. What would you like to talk about today? 😊"}
+```
+
+### Tools (coming soon)
+
+LLMs are increasingly supporting deferring to tools or functions to fetch data, perform calculations, or store structured data. Groq Cloud in turn then supports their tool implementations through its API.
+
+See the [Using Tools](https://console.groq.com/docs/tool-use) documentation for the list of models that currently support tools.
+
+```ruby
+client = Groq::Client.new(model_id: "mixtral-8x7b")
 ```
 
 ## Development
