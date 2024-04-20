@@ -39,6 +39,9 @@ class Groq::Client
     if response.status == 200
       response.body.dig("choices", 0, "message")
     else
+      # TODO: send the response.body back in Error object
+      puts "Error: #{response.status}"
+      pp response.body
       raise Error, "Request failed with status #{response.status}: #{response.body}"
     end
   end

@@ -17,12 +17,12 @@ So you can write your own Ruby client code to interact with the Groq Cloud API.
 Or you can use this convenience RubyGem with some nice helpers to get you started.
 
 ```ruby
-client = Groq::Client.new
-client.chat("Hello, world!")
+@client = Groq::Client.new
+@client.chat("Hello, world!")
 => {"role"=>"assistant", "content"=>"Hello there! It's great to meet you!"}
 
 include Groq::Helpers
-client.chat([
+@client.chat([
     U("Hi"),
     A("Hello back. Ask me anything. I'll reply with 'cat'"),
     U("Favourite food?")
@@ -80,13 +80,29 @@ client.chat([
 # => {"role" => "assistant", "content" => "The next day after Thursday is Friday."}
 ```
 
+### Interactive console (IRb)
+
+```plain
+bin/console
+```
+
+This repository has a `bin/console` script to start an interactive console to play with the Groq API. The `@client` variable is setup using `$GROQ_API_KEY` environment variable; and the `U`, `A`, `T` helpers are already included.
+
+```ruby
+@client.chat("Hello, world!")
+{"role"=>"assistant",
+ "content"=>"Hello there! It's great to meet you! Is there something you'd like to talk about or ask? I'm here to listen and help if I can!"}
+```
+
+The remaining examples below will use `@client` variable to allow you to copy+paste into `bin/console`.
+
 ### Message helpers
 
 We also have some handy `U`, `A`, and `F` methods to produce the `{role:, content:}` hashes:
 
 ```ruby
 include Groq::Helpers
-client.chat([
+@client.chat([
     U("Hi"),
     A("Hello back. Ask me anything. I'll reply with 'cat'"),
     U("Favourite food?")
@@ -136,7 +152,7 @@ end
 You can also specify the model within the `chat()` call:
 
 ```ruby
-client.chat("Hello, world!", model_id: "llama3-70b-8192")
+@client.chat("Hello, world!", model_id: "llama3-70b-8192")
 ```
 
 To see all known models reply:
@@ -145,7 +161,7 @@ To see all known models reply:
 puts "User message: Hello, world!"
 Groq::Model.model_ids.each do |model_id|
   puts "Assistant reply with model #{model_id}:"
-  p client.chat("Hello, world!", model_id: model_id)
+  p @client.chat("Hello, world!", model_id: model_id)
 end
 ```
 
@@ -172,7 +188,7 @@ LLMs are increasingly supporting deferring to tools or functions to fetch data, 
 See the [Using Tools](https://console.groq.com/docs/tool-use) documentation for the list of models that currently support tools.
 
 ```ruby
-client = Groq::Client.new(model_id: "mixtral-8x7b")
+@client = Groq::Client.new(model_id: "mixtral-8x7b-32768")
 ```
 
 The Groq/OpenAI schema for defining a tool/function (which differs from the Anthropic/Claude3 schema) is:
@@ -200,9 +216,11 @@ tools = [{
 Pass the `tools` array into the `chat()` call:
 
 ```ruby
+@client = Groq::Client.new(model_id: "mixtral-8x7b-32768")
+
 include Groq::Helpers
 messages = [U("What's the weather in Paris?")]
-response = client.chat(messages, tools: tools)
+response = @client.chat(messages, tools: tools)
 # => {"role"=>"assistant", "tool_calls"=>[{"id"=>"call_b790", "type"=>"function", "function"=>{"name"=>"get_weather_report", "arguments"=>"{\"city\":\"Paris\"}"}}]}
 ```
 
@@ -213,7 +231,7 @@ messages << response
 
 tool_call_id = response["tool_calls"].first["id"]
 messages << T("25 degrees celcius", tool_call_id: tool_call_id, name: "get_weather_report")
-client.chat(messages)
+@client.chat(messages)
 # => {"role"=>"assistant", "content"=> "I'm glad you called the function!\n\nAs of your current location, the weather in Paris is indeed 25°C (77°F)..."}
 ```
 
