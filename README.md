@@ -8,7 +8,7 @@ Speed and pricing at 2024-04-21. Also see their [changelog](https://console.groq
 
 ## Groq Cloud API
 
-You can interact with their API using any Ruby HTTP library by following their documentation at <https://console.groq.com/docs/quickstart>
+You can interact with their API using any Ruby HTTP library by following their documentation at <https://console.groq.com/docs/quickstart>. Also use their [Playground](https://console.groq.com/playground) and watch the API traffic in the browser's developer tools.
 
 The Groq Cloud API looks to be copying a subset of the OpenAI API. For example, you perform chat completions at `https://api.groq.com/openai/v1/chat/completions` with the same POST body schema as OpenAI. The Tools support looks to have the same schema for defining tools/functions.
 
@@ -242,6 +242,34 @@ tool_call_id = response["tool_calls"].first["id"]
 messages << T("25 degrees celcius", tool_call_id: tool_call_id, name: "get_weather_report")
 @client.chat(messages)
 # => {"role"=>"assistant", "content"=> "I'm glad you called the function!\n\nAs of your current location, the weather in Paris is indeed 25°C (77°F)..."}
+```
+
+### Max Tokens & Temperature
+
+Max tokens is the maximum number of tokens that the model can process in a single response. This limits ensures computational efficiency and resource management.
+
+Temperature setting for each API call controls randomness of responses. A lower temperature leads to more predictable outputs while a higher temperature results in more varies and sometimes more creative outputs. The range of values is 0 to 2.
+
+Each API call includes a `max_token:` and `temperature:` value.
+
+The defaults are:
+
+```ruby
+@client.max_tokens
+=> 1024
+@client.temperature
+=> 1
+```
+
+You can override them in the `Groq.configuration` block, or with each `chat()` call:
+
+```ruby
+Groq.configuration do |config|
+  config.max_tokens = 512
+  config.temperature = 0.5
+end
+# or
+@client.chat("Hello, world!", max_tokens: 512, temperature: 0.5)
 ```
 
 ## Development

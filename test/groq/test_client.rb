@@ -3,6 +3,13 @@
 require "test_helper"
 
 class TestGroqClient < Minitest::Test
+  def test_defaults
+    client = Groq::Client.new
+    assert_equal "llama3-8b-8192", client.model_id
+    assert_equal 1024, client.max_tokens
+    assert_equal 1, client.temperature
+  end
+
   # define "say hello world" for each model, such as: test_hello_world_llama3_8b et al
   Groq::Model::MODELS.each do |model|
     model_id = model[:model_id]
@@ -101,6 +108,17 @@ class TestGroqClient < Minitest::Test
 
       response = client.chat(messages, tools: tools)
       assert_equal response, {"role" => "assistant", "content" => "The weather in Brisbane, QLD is 25 degrees Celsius."}
+    end
+  end
+
+  def test_max_tokens
+    VCR.use_cassette("llama3-8b-8192/chat_max_tokens") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      response = client.chat("What's the next day after Wednesday?", max_tokens: 1)
+      assert_equal response, {
+        "role" => "assistant", "content" => "The"
+      }
+      # Yeah, max_tokens=1 still returns a full word; because its a single token.
     end
   end
 end

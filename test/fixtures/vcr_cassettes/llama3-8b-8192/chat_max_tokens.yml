@@ -6,9 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"model":"llama3-8b-8192","messages":[{"role":"user","content":"What''s
-        the next day after Wednesday?"},{"role":"assistant","content":"The next day
-        after Wednesday is Thursday."},{"role":"user","content":"What''s the next
-        day after that?"}],"max_tokens":1024,"temperature":1}'
+        the next day after Wednesday? Answer with its first letter."}],"max_tokens":1,"temperature":1}'
     headers:
       User-Agent:
       - Faraday v2.9.0
@@ -26,7 +24,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 20 Apr 2024 21:11:24 GMT
+      - Sat, 20 Apr 2024 21:11:31 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -44,13 +42,13 @@ http_interactions:
       X-Ratelimit-Remaining-Requests:
       - '14399'
       X-Ratelimit-Remaining-Tokens:
-      - '14959'
+      - '14979'
       X-Ratelimit-Reset-Requests:
       - 6s
       X-Ratelimit-Reset-Tokens:
-      - 164ms
+      - 84ms
       X-Request-Id:
-      - req_01hvynjz99ejdb0apt5j7v7w4q
+      - req_01hvynk65hejetdcgwbn15s8h5
       Via:
       - 1.1 google
       Alt-Svc:
@@ -58,18 +56,17 @@ http_interactions:
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=d9NBIpFcnrkEqTLIn3ZusU4q3hzxHo.xBZofaGW.wDM-1713647484-1.0.1.1-TbAUs8TMqSsg6ud5bZUeXRZaH6WtD1C0gHykT50_O2YTi14X7Kcw10AIopckBARs5LG3XIwF_2tjnH2Q2VIr5w;
-        path=/; expires=Sat, 20-Apr-24 21:41:24 GMT; domain=.groq.com; HttpOnly; Secure;
+      - __cf_bm=TQrkPimL3C9A0lJ6i3WyvhmBkspFsGtY9LqNSHxSwBQ-1713647491-1.0.1.1-tiQVMBbv3FggJLSa5uj_IWrAnnBq5YM1FJv9CXDl2eb2vM3twI996FW1BvUUdMMMkgkfIa1.eIefTY3Blp0PyA;
+        path=/; expires=Sat, 20-Apr-24 21:41:31 GMT; domain=.groq.com; HttpOnly; Secure;
         SameSite=None
       Server:
       - cloudflare
       Cf-Ray:
-      - 87782067cc095d25-SYD
+      - 877820931adaa813-SYD
     body:
       encoding: ASCII-8BIT
-      string: '{"id":"chatcmpl-4db7334c-ace9-4540-b954-496a65bead9b","object":"chat.completion","created":1713647484,"model":"llama3-8b-8192","choices":[{"index":0,"message":{"role":"assistant","content":"The
-        next day after Thursday is Friday."},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":44,"prompt_time":0.029,"completion_tokens":8,"completion_time":0.009,"total_tokens":52,"total_time":0.038},"system_fingerprint":"fp_dadc9d6142","x_groq":{"id":"req_01hvynjz99ejdb0apt5j7v7w4q"}}
+      string: '{"id":"chatcmpl-7777b0f0-c67f-403a-bb6c-650f24af92f5","object":"chat.completion","created":1713647491,"model":"llama3-8b-8192","choices":[{"index":0,"message":{"role":"assistant","content":"The"},"logprobs":null,"finish_reason":"length"}],"usage":{"prompt_tokens":24,"prompt_time":0.011,"completion_tokens":1,"completion_time":0,"total_tokens":25,"total_time":0.011},"system_fingerprint":"fp_dadc9d6142","x_groq":{"id":"req_01hvynk65hejetdcgwbn15s8h5"}}
 
         '
-  recorded_at: Sat, 20 Apr 2024 21:11:24 GMT
+  recorded_at: Sat, 20 Apr 2024 21:11:31 GMT
 recorded_with: VCR 6.2.0

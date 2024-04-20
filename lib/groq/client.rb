@@ -5,6 +5,8 @@ class Groq::Client
     api_key
     api_url
     model_id
+    max_tokens
+    temperature
   ].freeze
   attr_reader(*CONFIG_KEYS, :faraday_middleware)
 
@@ -20,7 +22,7 @@ class Groq::Client
   end
 
   # TODO: support stream: true; or &stream block
-  def chat(messages, model_id: nil, tools: nil)
+  def chat(messages, model_id: nil, tools: nil, max_tokens: nil, temperature: nil)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
     end
@@ -34,7 +36,9 @@ class Groq::Client
     body = {
       model: model_id,
       messages: messages,
-      tools: tools
+      tools: tools,
+      max_tokens: max_tokens || @max_tokens,
+      temperature: temperature || @temperature
     }.compact
     response = post(path: "/openai/v1/chat/completions", body: body)
     if response.status == 200
