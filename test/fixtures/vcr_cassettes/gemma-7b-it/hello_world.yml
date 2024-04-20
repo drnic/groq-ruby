@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gemma-7b-it","messages":[{"role":"user","content":"Reply
+        with only the words: Hello, World!"}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 08:51:39 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '15000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '14983'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 68ms
+      X-Request-Id:
+      - req_01hvxb8eevejas1wd6618ce7j1
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=qdM35oTbVsNlPVUDlNkyHNRgyCqMYnqCPNeN53JOXck-1713603099-1.0.1.1-n1tVlGKMrrOy1kevEzdUDgqxZbFe8ygB20byG037xbhm2TBtUmsa8UQZulReG27NRBDLy5.m8mIEAeKdsaT6kg;
+        path=/; expires=Sat, 20-Apr-24 09:21:39 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 8773e4c8d9405c10-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-14794e21-454b-4afa-b20e-cc6991518ab4","object":"chat.completion","created":1713603099,"model":"gemma-7b-it","choices":[{"index":0,"message":{"role":"assistant","content":"Hello,
+        World!"},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":24,"prompt_time":0.016,"completion_tokens":4,"completion_time":0.004,"total_tokens":28,"total_time":0.02},"system_fingerprint":"fp_f0c35fc854","x_groq":{"id":"req_01hvxb8eevejas1wd6618ce7j1"}}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 08:51:39 GMT
+recorded_with: VCR 6.2.0

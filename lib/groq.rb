@@ -3,6 +3,6 @@
 require_relative "groq/version"
 
 module Groq
-  class Error < StandardError; end
-  # Your code goes here...
+  autoload :Client, "groq/client"
+  autoload :Model, "groq/model"
 end
