@@ -1,9 +1,19 @@
 require "faraday"
 
 class Groq::Client
-  def initialize(api_key: nil, api_url: nil)
-    @api_key = ENV.fetch("GROQ_API_KEY", api_key)
-    @api_url ||= "https://api.groq.com"
+  CONFIG_KEYS = %i[
+    api_key
+    api_url
+  ].freeze
+  attr_reader(*CONFIG_KEYS, :faraday_middleware)
+
+  def initialize(config = {}, &faraday_middleware)
+    CONFIG_KEYS.each do |key|
+      # Set instance variables like api_key.
+      # Fall back to global config if not present.
+      instance_variable_set(:"@#{key}", config[key] || Groq.configuration.send(key))
+    end
+    @faraday_middleware = faraday_middleware
   end
 
   def post(path:, body:)
