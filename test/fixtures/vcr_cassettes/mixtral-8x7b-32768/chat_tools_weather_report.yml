@@ -1,0 +1,149 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"mixtral-8x7b-32768","messages":[{"role":"user","content":"What''s
+        the weather in Brisbane, QLD?"}],"tools":[{"type":"function","function":{"name":"get_weather_report","description":"Get
+        the weather report for a city","parameters":{"type":"object","properties":{"city":{"type":"string","description":"The
+        city or region to get the weather report for"}},"required":["city"]}}}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 20:11:34 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '9000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '8985'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 100ms
+      X-Request-Id:
+      - req_01hvyj5dbpfm5r8sr0n6z3hr5s
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=CHZB94RMg5Lfo2gjrSM.at7oWiRnEjAS8eg_SHlLhqM-1713643894-1.0.1.1-HQadufnox3LgHH0qnZ50l.TIL7XvCIdY20FPTepcb1oHQHQBAIlR5ut0pGYtOrh6pP4UkmSGEDgN0S1aLIqIjA;
+        path=/; expires=Sat, 20-Apr-24 20:41:34 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 8777c8c1db9fa94a-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-c0e4e381-04f4-447d-9c86-65998d610065","object":"chat.completion","created":1713643894,"model":"mixtral-8x7b-32768","choices":[{"index":0,"message":{"role":"assistant","tool_calls":[{"id":"call_6dh1","type":"function","function":{"name":"get_weather_report","arguments":"{\"city\":\"Brisbane,
+        QLD\"}"}}]},"logprobs":null,"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":1106,"prompt_time":0.207,"completion_tokens":118,"completion_time":0.21,"total_tokens":1224,"total_time":0.417},"system_fingerprint":"fp_7b44c65f25","x_groq":{"id":"req_01hvyj5dbpfm5r8sr0n6z3hr5s"}}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 20:11:34 GMT
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"mixtral-8x7b-32768","messages":[{"role":"user","content":"What''s
+        the weather in Brisbane, QLD?"},{"role":"assistant","tool_calls":[{"id":"call_6dh1","type":"function","function":{"name":"get_weather_report","arguments":"{\"city\":\"Brisbane,
+        QLD\"}"}}]},{"role":"function","tool_call_id":"call_b790","name":"get_weather_report","content":"25
+        degrees celcius"}],"tools":[{"type":"function","function":{"name":"get_weather_report","description":"Get
+        the weather report for a city","parameters":{"type":"object","properties":{"city":{"type":"string","description":"The
+        city or region to get the weather report for"}},"required":["city"]}}}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 20:11:35 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '9000'
+      X-Ratelimit-Remaining-Requests:
+      - '14398'
+      X-Ratelimit-Remaining-Tokens:
+      - '8882'
+      X-Ratelimit-Reset-Requests:
+      - 11.285999999s
+      X-Ratelimit-Reset-Tokens:
+      - 782.333333ms
+      X-Request-Id:
+      - req_01hvyj5e2recgr738s0tdspbwt
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=1iHM9EXsKajX8BHPVxGYfRA06JMAnK1T9KRgO6euV7U-1713643895-1.0.1.1-0mR_degNrAvpLUGe4_L13otuzrsYNiA_Rl9zBd0.aFuEZtWdkgxVDdqbtGdKAPLyqtRDPFvbClY5wfZBYGOPNw;
+        path=/; expires=Sat, 20-Apr-24 20:41:35 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 8777c8c67fa3a838-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-dec56a32-b99a-4ef6-abdd-49becf536808","object":"chat.completion","created":1713643895,"model":"mixtral-8x7b-32768","choices":[{"index":0,"message":{"role":"assistant","content":"The
+        weather in Brisbane, QLD is 25 degrees Celsius."},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":1183,"prompt_time":0.234,"completion_tokens":19,"completion_time":0.033,"total_tokens":1202,"total_time":0.267},"system_fingerprint":"fp_c5f20b5bb1","x_groq":{"id":"req_01hvyj5e2recgr738s0tdspbwt"}}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 20:11:35 GMT
+recorded_with: VCR 6.2.0

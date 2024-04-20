@@ -80,9 +80,9 @@ client.chat([
 # => {"role" => "assistant", "content" => "The next day after Thursday is Friday."}
 ```
 
-### U() & A() message helpers
+### Message helpers
 
-We also have some handy `U` and `A` methods to produce the `{role:, content:}` hash:
+We also have some handy `U`, `A`, and `F` methods to produce the `{role:, content:}` hashes:
 
 ```ruby
 include Groq::Helpers
@@ -96,6 +96,19 @@ client.chat([
 # => {"role"=>"assistant", "content"=>"Pizza"}
 # => {"role"=>"assistant", "content"=>"Cat"}
 ```
+
+The `T()` is to provide function/tool responses:
+
+```
+T("tool", tool_call_id: "call_b790", name: "get_weather_report", content: "25 degrees celcius")
+# => {"role"=>"function", "tool_call_id"=>"call_b790", "name"=>"get_weather_report", "content"=>"25 degrees celcius"}
+```
+
+There are also aliases for each helper function:
+
+* `U(content)` is also `User(content)`
+* `A(content)` is also `Assistant(content)`
+* `T(content, ...)` is also `Tool`, `ToolReply`, `Function`, `F`
 
 ### Specifying an LLM model
 
@@ -152,7 +165,7 @@ Assistant reply with model gemma-7b-it:
 {"role"=>"assistant", "content"=>"Hello to you too! 👋🌎 It's great to hear from you. What would you like to talk about today? 😊"}
 ```
 
-### Tools (coming soon)
+### Tools/Functions
 
 LLMs are increasingly supporting deferring to tools or functions to fetch data, perform calculations, or store structured data. Groq Cloud in turn then supports their tool implementations through its API.
 
@@ -160,6 +173,48 @@ See the [Using Tools](https://console.groq.com/docs/tool-use) documentation for 
 
 ```ruby
 client = Groq::Client.new(model_id: "mixtral-8x7b")
+```
+
+The Groq/OpenAI schema for defining a tool/function (which differs from the Anthropic/Claude3 schema) is:
+
+```ruby
+tools = [{
+  type: "function",
+  function: {
+    name: "get_weather_report",
+    description: "Get the weather report for a city",
+    parameters: {
+    type: "object",
+    properties: {
+      city: {
+        type: "string",
+        description: "The city or region to get the weather report for"
+      }
+    },
+    required: ["city"]
+    }
+  }
+}]
+```
+
+Pass the `tools` array into the `chat()` call:
+
+```ruby
+include Groq::Helpers
+messages = [U("What's the weather in Paris?")]
+response = client.chat(messages, tools: tools)
+# => {"role"=>"assistant", "tool_calls"=>[{"id"=>"call_b790", "type"=>"function", "function"=>{"name"=>"get_weather_report", "arguments"=>"{\"city\":\"Paris\"}"}}]}
+```
+
+You'd then invoke the Ruby implementation of `get_weather_report` to return the weather report for Paris as the next message in the chat.
+
+```ruby
+messages << response
+
+tool_call_id = response["tool_calls"].first["id"]
+messages << T("25 degrees celcius", tool_call_id: tool_call_id, name: "get_weather_report")
+client.chat(messages)
+# => {"role"=>"assistant", "content"=> "I'm glad you called the function!\n\nAs of your current location, the weather in Paris is indeed 25°C (77°F)..."}
 ```
 
 ## Development

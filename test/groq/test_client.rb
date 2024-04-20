@@ -65,4 +65,41 @@ class TestGroqClient < Minitest::Test
       }
     end
   end
+
+  def test_tools_weather_report
+    VCR.use_cassette("mixtral-8x7b-32768/chat_tools_weather_report") do
+      client = Groq::Client.new(model_id: "mixtral-8x7b-32768")
+      tools = [{
+        type: "function",
+        function: {
+          name: "get_weather_report",
+          description: "Get the weather report for a city",
+          parameters: {
+            type: "object",
+            properties: {
+              city: {
+                type: "string",
+                description: "The city or region to get the weather report for"
+              }
+            },
+            required: ["city"]
+          }
+        }
+      }]
+      messages = [User("What's the weather in Brisbane, QLD?")]
+      response = client.chat(messages, tools: tools)
+      # {"role"=>"assistant", "tool_calls"=>[{"id"=>"call_b790", "type"=>"function", "function"=>{"name"=>"get_weather_report", "arguments"=>"{\"city\":\"Brisbane, QLD\"}"}}]}
+      assert_equal response["role"], "assistant"
+      assert_equal response["tool_calls"].first["type"], "function"
+      assert_equal response["tool_calls"].first["function"]["name"], "get_weather_report"
+      tool_call_id = response["tool_calls"].first["id"]
+      messages << response
+
+      # say with have a get_weather_report(city) function and it returns "25 degrees celcius"
+      messages << ToolReply("25 degrees celcius", tool_call_id: tool_call_id, name: "get_weather_report")
+
+      response = client.chat(messages, tools: tools)
+      assert_equal response, {"role" => "assistant", "content" => "The weather in Brisbane, QLD is 25 degrees Celsius."}
+    end
+  end
 end

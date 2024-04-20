@@ -19,7 +19,7 @@ class Groq::Client
     @faraday_middleware = faraday_middleware
   end
 
-  def chat(messages, model_id: nil)
+  def chat(messages, model_id: nil, tools: nil)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
     end
@@ -29,7 +29,13 @@ class Groq::Client
     end
 
     model_id ||= @model_id
-    response = post(path: "/openai/v1/chat/completions", body: {model: model_id, messages: messages})
+
+    body = {
+      model: model_id,
+      messages: messages,
+      tools: tools
+    }.compact
+    response = post(path: "/openai/v1/chat/completions", body: body)
     if response.status == 200
       response.body.dig("choices", 0, "message")
     else
