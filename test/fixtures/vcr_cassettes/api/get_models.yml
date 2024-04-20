@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.groq.com/openai/v1/models
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 20 Apr 2024 20:56:50 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Request-Id:
+      - req_01hvymr9mpf58vvv3r66m1p3y9
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=1_7GmiVeiw0MZ7WgpYSjlt41aefHP9xwUc8hNvwwewE-1713646610-1.0.1.1-qULpGYO__MQhQfX5bCLhqzZ9nNP1GGW7tQRdYuE53yICW9WLOXFaA0swUiwE4hKBXeSU1UAr6M46BAcWjMuKJA;
+        path=/; expires=Sat, 20-Apr-24 21:26:50 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 87780b0fb8efa80e-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"id":"gemma-7b-it","object":"model","created":1693721698,"owned_by":"Google","active":true,"context_window":8192},{"id":"llama2-70b-4096","object":"model","created":1693721698,"owned_by":"Meta","active":true,"context_window":4096},{"id":"llama3-70b-8192","object":"model","created":1693721698,"owned_by":"Meta","active":true,"context_window":8192},{"id":"llama3-8b-8192","object":"model","created":1693721698,"owned_by":"Meta","active":true,"context_window":8192},{"id":"mixtral-8x7b-32768","object":"model","created":1693721698,"owned_by":"Mistral
+        AI","active":true,"context_window":32768}]}
+
+        '
+  recorded_at: Sat, 20 Apr 2024 20:56:49 GMT
+recorded_with: VCR 6.2.0

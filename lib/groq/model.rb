@@ -49,5 +49,23 @@ class Groq::Model
     def default_model_id
       default_model[:model_id]
     end
+
+    # https://api.groq.com/openai/v1/models
+    # Output:
+    # {"object": "list",
+    # "data": [
+    #     {
+    #         "id": "gemma-7b-it",
+    #         "object": "model",
+    #         "created": 1693721698,
+    #         "owned_by": "Google",
+    #         "active": true,
+    #         "context_window": 8192
+    #     },
+    def load_models(client:)
+      client ||= Groq::Client.new
+      response = client.get(path: "/openai/v1/models")
+      response.body
+    end
   end
 end

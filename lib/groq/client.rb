@@ -46,6 +46,13 @@ class Groq::Client
     end
   end
 
+  def get(path:)
+    client.get do |req|
+      req.url path
+      req.headers["Authorization"] = "Bearer #{@api_key}"
+    end
+  end
+
   def post(path:, body:)
     client.post do |req|
       req.url path

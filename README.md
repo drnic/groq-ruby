@@ -4,7 +4,7 @@ Groq Cloud runs LLM models fast and cheap. Llama 3, Mixtrel, Gemma, and more at 
 
 [![speed-pricing](docs/images/groq-speed-price-20240421.png)](https://wow.groq.com/)
 
-Speed and pricing at 2024-04-21.
+Speed and pricing at 2024-04-21. Also see their [changelog](https://console.groq.com/docs/changelog) for new models and features.
 
 ## Groq Cloud API
 
@@ -185,7 +185,7 @@ Assistant reply with model gemma-7b-it:
 
 LLMs are increasingly supporting deferring to tools or functions to fetch data, perform calculations, or store structured data. Groq Cloud in turn then supports their tool implementations through its API.
 
-See the [Using Tools](https://console.groq.com/docs/tool-use) documentation for the list of models that currently support tools.
+See the [Using Tools](https://console.groq.com/docs/tool-use) documentation for the list of models that currently support tools. Others might support it sometimes and raise errors other times.
 
 ```ruby
 @client = Groq::Client.new(model_id: "mixtral-8x7b-32768")
