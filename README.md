@@ -1,5 +1,14 @@
 # Groq
 
+Groq Cloud runs LLM models fast and cheap. Llama 3, Mixtrel, Gemma, and more at hundreds of tokens per second, at cents per million tokens.
+
+[![speed-pricing](docs/images/groq-speed-price-20240421.png)](https://wow.groq.com/)
+
+Speed and pricing at 2024-04-21.
+
+You can interact with their API using any Ruby HTTP library by following their documentation at <https://console.groq.com/docs/quickstart>.
+
+Or you can use this convenience RubyGem with some nice helpers to get you started.
 
 ## Installation
 
