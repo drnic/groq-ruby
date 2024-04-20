@@ -48,6 +48,8 @@ client.chat([
 # => {"role" => "assistant", "content" => "The next day after Thursday is Friday."}
 ```
 
+### U() & A() message helpers
+
 We also have some handy `U` and `A` methods to produce the `{role:, content:}` hash:
 
 ```ruby
@@ -61,6 +63,61 @@ client.chat([
 # => {"role"=>"assistant", "content"=>"Not a cat! It's a pizza!"}
 # => {"role"=>"assistant", "content"=>"Pizza"}
 # => {"role"=>"assistant", "content"=>"Cat"}
+```
+
+### Specifying an LLM model
+
+At the time of writing, Groq Cloud service supports a limited number of models. They've suggested they'll allow uploading custom models in future.
+
+To get the list of known model IDs:
+
+```ruby
+Groq::Model.model_ids
+=> ["llama3-8b-8192", "llama3-70b-8192", "llama2-70b-4096", "mixtral-8x7b-32768", "gemma-7b-it"]
+```
+
+To get more data about each model, see `Groq::Model::MODELS`.
+
+As above, you can specify the default model to use for all `chat()` calls:
+
+```ruby
+client = Groq::Client.new(model_id: "llama3-70b-8192")
+# or
+Groq.configuration do |config|
+  config.model_id = "llama3-70b-8192"
+end
+```
+
+You can also specify the model within the `chat()` call:
+
+```ruby
+client.chat("Hello, world!", model_id: "llama3-70b-8192")
+```
+
+To see all known models reply:
+
+```ruby
+puts "User message: Hello, world!"
+Groq::Model.model_ids.each do |model_id|
+  puts "Assistant reply with model #{model_id}:"
+  p client.chat("Hello, world!", model_id: model_id)
+end
+```
+
+The output might looks similar to:
+
+```plain
+User message: Hello, world!
+Assistant reply with model llama3-8b-8192:
+{"role"=>"assistant", "content"=>"Hello, world! It's great to meet you! Is there something I can help you with, or would you like to chat?"}
+Assistant reply with model llama3-70b-8192:
+{"role"=>"assistant", "content"=>"The classic \"Hello, world!\" It's great to see you here! Is there something I can help you with, or would you like to just chat?"}
+Assistant reply with model llama2-70b-4096:
+{"role"=>"assistant", "content"=>"Hello, world!"}
+Assistant reply with model mixtral-8x7b-32768:
+{"role"=>"assistant", "content"=>"Hello! It's nice to meet you. Is there something specific you would like to know or talk about? I'm here to help answer any questions you have to the best of my ability. I can provide information on a wide variety of topics, so feel free to ask me anything. I'm here to assist you."}
+Assistant reply with model gemma-7b-it:
+{"role"=>"assistant", "content"=>"Hello to you too! 👋🌎 It's great to hear from you. What would you like to talk about today? 😊"}
 ```
 
 ## Development

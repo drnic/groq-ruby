@@ -37,11 +37,17 @@ class Groq::Model
     }
   ]
 
-  def self.default_model
-    MODELS.first
-  end
+  class << self
+    def model_ids
+      MODELS.map { |m| m[:model_id] }
+    end
 
-  def self.default_model_id
-    default_model[:model_id]
+    def default_model
+      MODELS.first
+    end
+
+    def default_model_id
+      default_model[:model_id]
+    end
   end
 end
