@@ -13,6 +13,11 @@ module Groq::Helpers
     end
     alias_method :Assistant, :A
 
+    def S(content)
+      {role: "system", content: content}
+    end
+    alias_method :System, :S
+
     def T(content, tool_call_id:, name:)
       {role: "function", tool_call_id: tool_call_id, name: name, content: content}
     end

@@ -56,6 +56,7 @@ class TestGroqClient < Minitest::Test
       client = Groq::Client.new
       # and with U/A helper methods
       response = client.chat([
+        S("I am an obedient AI."),
         U("What's the next day after Wednesday?"),
         A("The next day after Wednesday is Thursday."),
         U("What's the next day after that?")

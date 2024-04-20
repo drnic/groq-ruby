@@ -23,13 +23,23 @@ Or you can use this convenience RubyGem with some nice helpers to get you starte
 
 include Groq::Helpers
 @client.chat([
-    U("Hi"),
-    A("Hello back. Ask me anything. I'll reply with 'cat'"),
-    U("Favourite food?")
+  User("Hi"),
+  Assistant("Hello back. Ask me anything. I'll reply with 'cat'"),
+  User("Favourite food?")
 ])
 # => {"role"=>"assistant", "content"=>"Um... CAT"}
 # => {"role"=>"assistant", "content"=>"Not a cat! It's a pizza!"}
 # => {"role"=>"assistant", "content"=>"Pizza"}
+# => {"role"=>"assistant", "content"=>"Cat"}
+
+@client.chat([
+  System("I am an obedient AI"),
+  U("Hi"),
+  A("Hello back. Ask me anything. I'll reply with 'cat'"),
+  U("Favourite food?")
+])
+# => {"role"=>"assistant", "content"=>"Cat"}
+# => {"role"=>"assistant", "content"=>"cat"}
 # => {"role"=>"assistant", "content"=>"Cat"}
 ```
 
@@ -98,18 +108,16 @@ The remaining examples below will use `@client` variable to allow you to copy+pa
 
 ### Message helpers
 
-We also have some handy `U`, `A`, and `F` methods to produce the `{role:, content:}` hashes:
+We also have some handy `U`, `A`, `S`, and `F` methods to produce the `{role:, content:}` hashes:
 
 ```ruby
 include Groq::Helpers
 @client.chat([
-    U("Hi"),
-    A("Hello back. Ask me anything. I'll reply with 'cat'"),
-    U("Favourite food?")
+  S("I am an obedient AI"),
+  U("Hi"),
+  A("Hello back. Ask me anything. I'll reply with 'cat'"),
+  U("Favourite food?")
 ])
-# => {"role"=>"assistant", "content"=>"Um... CAT"}
-# => {"role"=>"assistant", "content"=>"Not a cat! It's a pizza!"}
-# => {"role"=>"assistant", "content"=>"Pizza"}
 # => {"role"=>"assistant", "content"=>"Cat"}
 ```
 
@@ -124,6 +132,7 @@ There are also aliases for each helper function:
 
 * `U(content)` is also `User(content)`
 * `A(content)` is also `Assistant(content)`
+* `S(content)` is also `System(content)`
 * `T(content, ...)` is also `Tool`, `ToolReply`, `Function`, `F`
 
 ### Specifying an LLM model

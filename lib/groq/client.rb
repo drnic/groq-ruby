@@ -19,6 +19,7 @@ class Groq::Client
     @faraday_middleware = faraday_middleware
   end
 
+  # TODO: support stream: true; or &stream block
   def chat(messages, model_id: nil, tools: nil)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
