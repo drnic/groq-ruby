@@ -60,16 +60,12 @@ JSON.parse(response["content"])
 
 Install the gem and add to the application's Gemfile by executing:
 
-```plain
-bundle add groq
+> bundle add groq
 ```
-
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-```plain
-gem install groq
+> gem install groq
 ```
-
 ## Usage
 
 - Get your API key from [console.groq.com/keys](https://console.groq.com/keys)
@@ -105,10 +101,8 @@ client.chat([
 
 ### Interactive console (IRb)
 
-```plain
-bin/console
+> bin/console
 ```
-
 This repository has a `bin/console` script to start an interactive console to play with the Groq API. The `@client` variable is setup using `$GROQ_API_KEY` environment variable; and the `U`, `A`, `T` helpers are already included.
 
 ```ruby
@@ -189,10 +183,8 @@ end
 
 The output might looks similar to:
 
-```plain
-User message: Hello, world!
+> User message: Hello, world!
 Assistant reply with model llama3-8b-8192:
-{"role"=>"assistant", "content"=>"Hello, world! It's great to meet you! Is there something I can help you with, or would you like to chat?"}
 Assistant reply with model llama3-70b-8192:
 {"role"=>"assistant", "content"=>"The classic \"Hello, world!\" It's great to see you here! Is there something I can help you with, or would you like to just chat?"}
 Assistant reply with model llama2-70b-4096:
@@ -308,6 +300,68 @@ end
 # or
 @client.chat("Hello, world!", max_tokens: 512, temperature: 0.5)
 ```
+
+## Examples
+
+Talking with a pizzeria.
+
+Our pizzeria agent can be as simple as a function that combines a system message and the current messages array:
+
+```ruby
+@agent_message = <<~EOS
+  You are an employee at a pizza store.
+
+  You sell hawaiian, and pepperoni pizzas; in small and large sizes for $10, and $20 respectively.
+
+  Pick up only in. Ready in 10 mins. Cash on pickup.
+EOS
+
+def pizza_messages(messages)
+  [
+    System(@agent_message),
+    *messages
+  ]
+end
+```
+
+Now for our first interaction:
+
+```ruby
+messages = [U("Is this the pizza shop? Do you sell hawaiian?")]
+
+response = @client.chat(pizza_messages(messages))
+puts response["content"]
+```
+
+The output might be:
+
+> Yeah! This is the place! Yes, we sell Hawaiian pizzas here! We've got both small and large sizes available for you. The small Hawaiian pizza is $10, and the large one is $20. Plus, because we're all about getting you your pizza fast, our pick-up time is only 10 minutes! So, what can I get for you today? Would you like to order a small or large Hawaiian pizza?
+
+Continue with user's reply.
+
+Note, we build the `messages` array with the previous user and assistant messages and the new user message:
+
+```ruby
+messages << response << U("Yep, give me a large.")
+response = @client.chat(pizza_messages(messages))
+puts response["content"]
+```
+
+Response:
+
+> I'll get that ready for you. So, to confirm, you'd like to order a large Hawaiian pizza for $20, and I'll have it ready for you in 10 minutes. When you come to pick it up, please have the cash ready as we're a cash-only transaction. See you in 10!
+
+Making a change:
+
+```ruby
+messages << response << U("Actually, make it two smalls.")
+response = @client.chat(pizza_messages(messages))
+puts response["content"]
+```
+
+Response:
+
+> I've got it! Two small Hawaiian pizzas on the way! That'll be $20 for two small pizzas. Same deal, come back in 10 minutes to pick them up, and bring cash for the payment. See you soon!
 
 ## Development
 
