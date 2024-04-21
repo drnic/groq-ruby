@@ -316,11 +316,11 @@ Our pizzeria agent can be as simple as a function that combines a system message
   Pick up only in. Ready in 10 mins. Cash on pickup.
 EOS
 
-def pizza_messages(messages)
-  [
+def chat_pizza_agent(messages)
+  @client.chat([
     System(@agent_message),
     *messages
-  ]
+  ])
 end
 ```
 
@@ -329,7 +329,7 @@ Now for our first interaction:
 ```ruby
 messages = [U("Is this the pizza shop? Do you sell hawaiian?")]
 
-response = @client.chat(pizza_messages(messages))
+response = chat_pizza_agent(messages)
 puts response["content"]
 ```
 
@@ -343,7 +343,7 @@ Note, we build the `messages` array with the previous user and assistant message
 
 ```ruby
 messages << response << U("Yep, give me a large.")
-response = @client.chat(pizza_messages(messages))
+response = chat_pizza_agent(messages)
 puts response["content"]
 ```
 
@@ -355,7 +355,7 @@ Making a change:
 
 ```ruby
 messages << response << U("Actually, make it two smalls.")
-response = @client.chat(pizza_messages(messages))
+response = chat_pizza_agent(messages)
 puts response["content"]
 ```
 
