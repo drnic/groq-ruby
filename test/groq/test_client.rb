@@ -85,6 +85,30 @@ class TestGroqClient < Minitest::Test
     end
   end
 
+  def test_json_mode_with_dry_schema
+    require "dry-schema"
+    Dry::Schema.load_extensions(:json_schema)
+
+    person_schema_defn = Dry::Schema.JSON do
+      required(:name).filled(:string)
+      optional(:age).filled(:integer)
+      optional(:email).filled(:string)
+    end
+    person_schema = person_schema_defn.json_schema
+
+    system_message = S("You're excellent at extracting personal information", json_schema: person_schema)
+
+    VCR.use_cassette("llama3-8b-8192/chat_json_mode_with_dry_schema") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      response = client.chat([
+        system_message,
+        U("I'm Dr Nic and I'm almost 50.")
+      ], json: true)
+      data = JSON.parse(response["content"])
+      assert_equal data, {"name" => "Dr Nic", "age" => 49}
+    end
+  end
+
   def test_tools_weather_report
     VCR.use_cassette("mixtral-8x7b-32768/chat_tools_weather_report") do
       client = Groq::Client.new(model_id: "mixtral-8x7b-32768")

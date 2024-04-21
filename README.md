@@ -183,6 +183,7 @@ end
 
 The output might looks similar to:
 
+```plain
 > User message: Hello, world!
 Assistant reply with model llama3-8b-8192:
 Assistant reply with model llama3-70b-8192:
@@ -218,6 +219,33 @@ response = @client.chat([
 JSON.parse(response["content"])
 # => {"number"=>7}
 ```
+
+### Using dry-schema with JSON mode
+
+As a bonus, the `S` or `System` helper can take a `json_schema:` argument and the system message will include the `JSON` keyword and the formatted schema in its content.
+
+For example, if you're using [dry-schema](https://dry-rb.org/gems/dry-schema/1.13/extensions/json_schema/) with its `:json_schema` extension you can use Ruby to describe JSON schema.
+
+```ruby
+require "dry-schema"
+Dry::Schema.load_extensions(:json_schema)
+
+person_schema_defn = Dry::Schema.JSON do
+  required(:name).filled(:string)
+  optional(:age).filled(:integer)
+  optional(:email).filled(:string)
+end
+person_schema = person_schema_defn.json_schema
+
+response = @client.chat([
+  S("You're excellent at extracting personal information", json_schema: person_schema),
+  U("I'm Dr Nic and I'm almost 50.")
+], json: true)
+JSON.parse(response["content"])
+# => {"name"=>"Dr Nic", "age"=>49}
+```
+
+NOTE: `bin/console` already loads the `dry-schema` library and the `json_schema` extension because its handy.
 
 ### Tools/Functions
 

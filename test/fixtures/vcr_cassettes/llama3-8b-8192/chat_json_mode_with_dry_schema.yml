@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3-8b-8192","messages":[{"role":"system","content":"You''re
+        excellent at extracting personal information\nJSON must use schema: {:$schema=>\"http://json-schema.org/draft-06/schema#\",
+        :type=>\"object\", :properties=>{:name=>{:type=>\"string\", :minLength=>1},
+        :age=>{:type=>\"integer\", :not=>{:type=>\"null\"}}, :email=>{:type=>\"string\",
+        :minLength=>1}}, :required=>[\"name\"]}"},{"role":"user","content":"I''m Dr
+        Nic and I''m almost 50."}],"max_tokens":1024,"temperature":1,"response_format":{"type":"json_object"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.9.0
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 21 Apr 2024 22:21:35 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=0, no-store, no-cache, must-revalidate
+      Vary:
+      - Origin, Accept-Encoding
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '15000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '14905'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 380ms
+      X-Request-Id:
+      - req_01hw1c06beexy8dt5ds2h41gq0
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=.PVI8kSBAtsCRR8vZ.6mG9ti3oHC3MisibR.PR4bMkM-1713738095-1.0.1.1-u0uDfVvoo18TMLhsyCQzSA0SBKQaaT6XsD0l.E_0GtmWPu4.YbxrmSWP8Wx5jyuB5JEWf2pRNIpCyKLKDIPgGg;
+        path=/; expires=Sun, 21-Apr-24 22:51:35 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 8780c494ee285d1e-SYD
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"chatcmpl-a329364c-3f41-440b-b5e5-bb768b2d21e1","object":"chat.completion","created":1713738095,"model":"llama3-8b-8192","choices":[{"index":0,"message":{"role":"assistant","content":"{\"name\":\"Dr
+        Nic\",\"age\":49}"},"logprobs":null,"finish_reason":"stop"}],"usage":{"prompt_tokens":117,"prompt_time":0.089,"completion_tokens":10,"completion_time":0.012,"total_tokens":127,"total_time":0.10099999999999999},"system_fingerprint":"fp_dadc9d6142","x_groq":{"id":"req_01hw1c06beexy8dt5ds2h41gq0"}}
+
+        '
+  recorded_at: Sun, 21 Apr 2024 22:21:35 GMT
+recorded_with: VCR 6.2.0

@@ -13,7 +13,10 @@ module Groq::Helpers
     end
     alias_method :Assistant, :A
 
-    def S(content)
+    def S(content, json_schema: nil)
+      if json_schema
+        content += "\nJSON must use schema: #{json_schema}"
+      end
       {role: "system", content: content}
     end
     alias_method :System, :S

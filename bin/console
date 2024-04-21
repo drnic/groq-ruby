@@ -9,5 +9,8 @@ require "groq"
 @client = Groq::Client.new
 include Groq::Helpers
 
+require "dry-schema"
+Dry::Schema.load_extensions(:json_schema)
+
 require "irb"
 IRB.start(__FILE__)
