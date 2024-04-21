@@ -303,6 +303,8 @@ end
 
 ## Examples
 
+### Pizzeria agent
+
 Talking with a pizzeria.
 
 Our pizzeria agent can be as simple as a function that combines a system message and the current messages array:
@@ -362,6 +364,98 @@ puts response["content"]
 Response:
 
 > I've got it! Two small Hawaiian pizzas on the way! That'll be $20 for two small pizzas. Same deal, come back in 10 minutes to pick them up, and bring cash for the payment. See you soon!
+
+### Pizza customer agent
+
+Oh my. Let's also have an agent that represents the customer.
+
+```ruby
+@customer_message = <<~EOS
+  You are a customer at a pizza store.
+
+  You want to order a pizza. You can ask about the menu, prices, sizes, and pickup times.
+
+  You'll agree with the price and terms of the pizza order.
+
+  You'll make a choice of the available options.
+
+  If you're first in the conversation, you'll say hello and ask about the menu.
+EOS
+
+def chat_pizza_customer(messages)
+  @client.chat([
+    System(@customer_message),
+    *messages
+  ])
+end
+```
+
+First interaction starts with no user or assistant messages. We're generating the customer's first message:
+
+```ruby
+customer_messages = []
+response = chat_pizza_customer(customer_messages)
+puts response["content"]
+```
+
+Customer's first message:
+
+> Hello! I'd like to order a pizza. Could you tell me more about the menu and prices? What kind of pizzas do you have available?
+
+Now we need to pass this to the pizzeria agent:
+
+```ruby
+customer_message = response["content"]
+pizzeria_messages = [U(customer_message)]
+response = chat_pizza_agent(pizzeria_messages)
+puts response["content"]
+```
+
+Pizzeria agent response:
+
+> Hi there! Yeah, sure thing! We've got two delicious options to choose from: Hawaiian and Pepperoni. Both come in small and large sizes. The small pizzas are $10 and the large pizzas are $20.
+>
+> Our Hawaiian pizza features fresh ham and pineapple on a bed of melted mozzarella. And if you're in the mood for something classic, our Pepperoni pizza is loaded with plenty of sliced pepperoni and melted mozzarella cheese.
+
+Now let's add this response to the customer agent's message array, and generate the customer's next response to the pizzera:
+
+```ruby
+customer_messages << U(response["content"])
+response = chat_pizza_customer(customer_messages)
+puts response["content"]
+```
+
+Customer agent response:
+
+> Wow, those both sound delicious! I'm intrigued by the Hawaiian combo, I never thought of putting ham and pineapple on a pizza before. How would you recommend I customize it? Can I add any extra toppings or keep it as is? And do you have any recommendations for the size? Small or large?
+
+Add this to the pizzeria agent's message array, and generate the pizzeria's response:
+
+```ruby
+pizzeria_messages << U(response["content"])
+response = chat_pizza_agent(pizzeria_messages)
+puts response["content"]
+```
+
+Pizzeria agent response:
+
+> The Hawaiian pizza is definitely a unique twist on traditional toppings! You can definitely customize it to your liking. We allow two extra toppings of your choice for an additional $1 each. If you want to add any other toppings beyond that, it's $2 per topping.
+>
+> As for recommends, I'd say the small size is a great starting point, especially if you're trying something new like the Hawaiian pizza. The small size is $10 and it's a great bite-sized portion. But if you're looking for a bigger pie, the large size is $20 and would be a great option if you're feeding a crowd or want leftovers.
+>
+> Keep in mind that our pizzas are cooked fresh in 10 minutes, so it's ready when it's ready! Would you like to place an order now?
+
+Will the customer actually buy anything now?
+
+> I think I'd like to go with the Hawaiian pizza in the small size, so the total would be $10. And I'll take advantage of the extra topping option. I think I'll add some mushrooms to it. So, that's an extra $1 for the mushroom topping. Would that be $11 total? And do you have a pickup time available soon?
+
+OMG, the customer bought something.
+
+Pizzeria agent response:
+
+> That sounds like a great choice! Yeah, the total would be $11, the small Hawaiian pizza with mushrooms. And yes, we do have pickup available shortly. It'll be ready in about 10 minutes. Cash on pickup, okay? Would you like to pay when you pick up your pizza?
+
+Maybe these two do not know how to stop talking. The Halting Problem exists in pizza shops too.
 
 ## Development
 
