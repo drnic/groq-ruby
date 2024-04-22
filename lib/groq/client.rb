@@ -7,6 +7,7 @@ class Groq::Client
     model_id
     max_tokens
     temperature
+    request_timeout
   ].freeze
   attr_reader(*CONFIG_KEYS, :faraday_middleware)
 
@@ -56,6 +57,7 @@ class Groq::Client
     client.get do |req|
       req.url path
       req.headers["Authorization"] = "Bearer #{@api_key}"
+      req.headers["User-Agent"] = "groq-ruby/#{Groq::VERSION}"
     end
   end
 
@@ -63,6 +65,7 @@ class Groq::Client
     client.post do |req|
       req.url path
       req.headers["Authorization"] = "Bearer #{@api_key}"
+      req.headers["User-Agent"] = "groq-ruby/#{Groq::VERSION}"
       req.body = body
     end
   end
@@ -72,7 +75,10 @@ class Groq::Client
       connection = Faraday.new(url: @api_url) do |f|
         f.request :json # automatically encode the request body as JSON
         f.response :json # automatically decode JSON responses
+        f.response :raise_error # raise exceptions on 4xx/5xx responses
+
         f.adapter Faraday.default_adapter
+        f.options[:timeout] = request_timeout
       end
       @faraday_middleware&.call(connection)
 
