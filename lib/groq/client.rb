@@ -68,10 +68,15 @@ class Groq::Client
   end
 
   def client
-    @client ||= Faraday.new(url: @api_url) do |f|
-      f.request :json # automatically encode the request body as JSON
-      f.response :json # automatically decode JSON responses
-      f.adapter Faraday.default_adapter
+    @client ||= begin
+      connection = Faraday.new(url: @api_url) do |f|
+        f.request :json # automatically encode the request body as JSON
+        f.response :json # automatically decode JSON responses
+        f.adapter Faraday.default_adapter
+      end
+      @faraday_middleware&.call(connection)
+
+      connection
     end
   end
 end

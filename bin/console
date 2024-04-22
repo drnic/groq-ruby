@@ -3,10 +3,36 @@
 
 require "bundler/setup"
 require "groq"
+require "logger"
+require "optparse"
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
-@client = Groq::Client.new
+@options = {
+  debug: false
+}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: bin/console [--debug]"
+
+  opts.on("--debug", "Enable debug mode") do
+    @options[:debug] = true
+  end
+end.parse!
+
+def debug?
+  @options[:debug]
+end
+
+@client = Groq::Client.new do |faraday|
+  if debug?
+    # Create a logger instance
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+
+    # Log request and response bodies
+    faraday.response :logger, logger, bodies: true
+  end
+end
+
 include Groq::Helpers
 
 require "dry-schema"

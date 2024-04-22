@@ -329,6 +329,29 @@ end
 @client.chat("Hello, world!", max_tokens: 512, temperature: 0.5)
 ```
 
+### Debugging API calls
+
+The underlying HTTP library being used is faraday, and you can enabled debugging, or configure other faraday internals by passing a block to the `Groq::Client.new` constructor.
+
+```ruby
+require 'logger'
+
+# Create a logger instance
+logger = Logger.new(STDOUT)
+logger.level = Logger::DEBUG
+
+@client = Groq::Client.new do |faraday|
+  # Log request and response bodies
+  faraday.response :logger, logger, bodies: true
+end
+```
+
+If you pass `--debug` to `bin/console` you will have this logger setup for you.
+
+```plain
+bin/console --debug
+```
+
 ## Examples
 
 ### Pizzeria agent
