@@ -354,6 +354,10 @@ bin/console --debug
 
 ## Examples
 
+Here are some example uses of Groq, of the `groq` gem and its syntax.
+
+Also, see the [`examples/`](examples/) folder for more example apps.
+
 ### Pizzeria agent
 
 Talking with a pizzeria.
