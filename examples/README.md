@@ -28,30 +28,24 @@ Run the pizzeria example with the following command:
 bundle exec examples/groq-user-chat.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
 ```
 
-> 🍕 Hello! Welcome to our pizza store! Can I take your order today? We have our delicious Hawaiian pizzas and pepperoni pizzas available in small and large sizes, priced at $10 and $20 respectively. Would you like to place an order?
+> 🍕 Hello! Thank you for calling our pizzeria. I'm happy to help you with your inquiry. Do you have a question about our menu or would you like to place an order?
 >
-> 😋 Hawaiian please
+> 😋 What's your cheapest?
 >
-> 🍕 Our Hawaiian pizza is a fan favorite! Would you like that in small or large size? Keep in mind that small is $10 and large is $20.
+> 🍕 Our cheapest menu item is the Garlic Knots (6 pieces), which is served with marinara sauce and priced at $5. Would you like to add it to your order or is there something else that catches your attention?
 >
-> 😋 Small
+> 😋 Yes. And a cheap pizza.
 >
-> 🍕 One small Hawaiian pizza coming right up! I'll get that ready for you. Pick it up when you come by, ready in just 10 minutes. Cash only when you pick it up. See you soon!
+> 🍕 Our cheapest pizza option is the Veggie Pizza. It comes with tomato sauce, mozzarella, and a mix of bell peppers, onions, and mushrooms, all for $13. Would you like to order the Veggie Pizza and the Garlic Knots together?
 >
-> 😋 Actually make it large. Two.
+> 😋 Yep
 >
-> 🍕 No problem! Two large Hawaiian pizzas, coming right up! That'll be $40, please. Pick them up in about 10 minutes, cash only when you get here. See you soon!
->
-> 😋 Sorry, my wife said she wants pepperoni
->
-> 🍕 Trade-in no problem! I'll swap out one of the Hawaiian pizzas for a large pepperoni pizza. So, you want one large Hawaiian pizza and one large pepperoni pizza, correct? Pick them up in 10 minutes, cash only when you get here. See you soon!
+> 🍕 I've taken note of your order. You're ordering a Veggie Pizza and 6 Garlic Knots. Your total comes out to be $18. Would you like to pay by credit card, cash, or take any other payment method?
 >
 > 😋 summary
 >
 > Here is a summary of the current conversation:
 >
-> The conversation started with the assistant welcoming a customer to the pizza store and offering a menu consisting of Hawaiian and pepperoni pizzas in small and large sizes. The customer initially ordered a single small Hawaiian pizza, which would be ready in 10 minutes for pick-up and paid with cash.
->
-> The customer then added a second order, requesting two large Hawaiian pizzas for a total cost of $40. However, they later asked to trade-in one of the Hawaiian pizzas for a large pepperoni pizza, resulting in an order of one large Hawaiian pizza and one large pepperoni pizza. The pizzas will be ready for pick-up in 10 minutes, paid with cash.
+> The conversation started with a customer calling the pizzeria and speaking with an AI assistant. The assistant offered to help with menu inquiries or taking an order. The customer was considering ordering from the menu. The assistant presented the cheapest menu item, Garlic Knots, and asked if the customer wanted to add it to their order. The customer may have been interested in other options as well. The assistant then presented the cheapest pizza option, the Veggie Pizza, and asked if the customer wanted to order it along with the Garlic Knots. The customer agreed, and the assistant took note of the order, which consisted of a Veggie Pizza and 6 Garlic Knots for a total of $18. The assistant asked how the customer would like to pay for their order.
 >
 > 😋 exit
