@@ -433,7 +433,7 @@ class MessageBits
 end
 
 bits = MessageBits.new("🍕")
-@client.chat("Write a long poem about patience", stream: bits)
+@client.chat("Write a long poem about pizza", stream: bits)
 ```
 
 ## Examples
