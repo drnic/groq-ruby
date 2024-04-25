@@ -405,6 +405,37 @@ Alternately, you can pass a `Proc` or any object that responds to `call` via a `
 @client.chat("Write a long poem about patience", stream: ->(content) { print content })
 ```
 
+You could use a class with a `call` method with either one or two arguments, like the `Proc` discussion above.
+
+```ruby
+class MessageBits
+  def initialize(emoji)
+    print "#{emoji} "
+    @bits = []
+  end
+
+  def call(content)
+    if content.nil?
+      puts
+    else
+      print(content)
+      @bits << content
+    end
+  end
+
+  def to_s
+    @bits.join("")
+  end
+
+  def to_assistant_message
+    Assistant(to_s)
+  end
+end
+
+bits = MessageBits.new("🍕")
+@client.chat("Write a long poem about patience", stream: bits)
+```
+
 ## Examples
 
 Here are some example uses of Groq, of the `groq` gem and its syntax.

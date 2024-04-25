@@ -131,11 +131,22 @@ class Groq::Client
         chunk = JSON.parse(data)
         delta = chunk.dig("choices", 0, "delta")
         content = delta.dig("content")
-        # if user_proc takes one argument, pass the content
-        if user_proc.arity == 1
-          user_proc.call(content)
+        if user_proc.is_a?(Proc)
+          # if user_proc takes one argument, pass the content
+          if user_proc.arity == 1
+            user_proc.call(content)
+          else
+            user_proc.call(content, chunk)
+          end
+        elsif user_proc.respond_to?(:call)
+          # if call method takes one argument, pass the content
+          if user_proc.method(:call).arity == 1
+            user_proc.call(content)
+          else
+            user_proc.call(content, chunk)
+          end
         else
-          user_proc.call(content, chunk)
+          raise ArgumentError, "The stream_chunk parameter must be a Proc or have a #call method"
         end
       end
     end

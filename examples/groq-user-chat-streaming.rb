@@ -91,6 +91,26 @@ if can_go_first
   messages << A(message_bits.join(""))
 end
 
+class MessageBits
+  def initialize(emoji)
+    print "#{emoji} "
+    @bits = []
+  end
+
+  def call(content)
+    if content.nil?
+      puts
+    else
+      print(content)
+      @bits << content
+    end
+  end
+
+  def to_assistant_message
+    Assistant(@bits.join(""))
+  end
+end
+
 loop do
   print "#{user_emoji} "
   user_input = gets.chomp
@@ -105,17 +125,8 @@ loop do
 
   messages << U(user_input)
 
-  print "#{agent_emoji} "
-
   # Use Groq to generate a response
-  message_bits = []
-  response = @client.chat(messages) do |content|
-    if content
-      print(content)
-      message_bits << content
-    else
-      puts
-    end
-  end
-  messages << A(message_bits.join(""))
+  message_bits = MessageBits.new(agent_emoji)
+  @client.chat(messages, stream: message_bits)
+  messages << message_bits.to_assistant_message
 end

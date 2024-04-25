@@ -60,9 +60,7 @@ class TestGroqClient < Minitest::Test
   def test_streaming_chunks
     VCR.use_cassette("llama3-8b-8192/chat_streaming_chunks") do
       client = Groq::Client.new(model_id: "llama3-8b-8192")
-      messages = [
-        {role: "user", content: "What's the next day after Wednesday?"}
-      ]
+      messages = [{role: "user", content: "What's the next day after Wednesday?"}]
       contents = []
       chunks = []
       response = client.chat(messages) do |content, chunk|
@@ -83,9 +81,7 @@ class TestGroqClient < Minitest::Test
   def test_streaming_chunks_with_stream_keyword_argument
     VCR.use_cassette("llama3-8b-8192/chat_streaming_chunks") do
       client = Groq::Client.new(model_id: "llama3-8b-8192")
-      messages = [
-        {role: "user", content: "What's the next day after Wednesday?"}
-      ]
+      messages = [{role: "user", content: "What's the next day after Wednesday?"}]
 
       contents = []
       proc = proc do |content|
@@ -96,6 +92,30 @@ class TestGroqClient < Minitest::Test
 
       assert_equal response, ""
       assert_equal contents, ["", "The", " next", " day", " after", " Wednesday", " is", " Thursday", "!", nil]
+    end
+  end
+
+  def test_streaming_chunks_with_callable_object
+    bits_class = Class.new do
+      def initialize
+        @bits = []
+      end
+
+      def call(content)
+        @bits << content
+      end
+
+      def to_s
+        @bits.join("")
+      end
+    end
+    VCR.use_cassette("llama3-8b-8192/chat_streaming_chunks") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      messages = [{role: "user", content: "What's the next day after Wednesday?"}]
+
+      bits = bits_class.new
+      client.chat(messages, stream: bits)
+      assert_equal bits.to_s, "The next day after Wednesday is Thursday!"
     end
   end
 
