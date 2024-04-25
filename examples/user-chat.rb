@@ -35,10 +35,6 @@ end.parse!
 raise "Missing --model option" if @options[:model].nil?
 raise "Missing --agent-prompt option" if @options[:agent_prompt_path].nil?
 
-def debug?
-  @options[:debug]
-end
-
 # Read the agent prompt from the file
 agent_prompt = YAML.load_file(@options[:agent_prompt_path])
 user_emoji = agent_prompt["user_emoji"]
@@ -48,7 +44,7 @@ can_go_first = agent_prompt["can_go_first"]
 
 # Initialize the Groq client
 @client = Groq::Client.new(model_id: @options[:model], request_timeout: @options[:timeout]) do |f|
-  if debug?
+  if @options[:debug]
     require "logger"
 
     # Create a logger instance
