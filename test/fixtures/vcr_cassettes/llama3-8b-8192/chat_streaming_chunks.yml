@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groq.com/openai/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3-8b-8192","messages":[{"role":"user","content":"What''s
+        the next day after Wednesday?"}],"max_tokens":1024,"temperature":1,"stream":true}'
+    headers:
+      Authorization:
+      - Bearer <GROQ_API_KEY>
+      User-Agent:
+      - groq-ruby/0.2.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 25 Apr 2024 01:59:11 GMT
+      Content-Type:
+      - text/event-stream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Origin
+      X-Ratelimit-Limit-Requests:
+      - '14400'
+      X-Ratelimit-Limit-Tokens:
+      - '12000'
+      X-Ratelimit-Remaining-Requests:
+      - '14399'
+      X-Ratelimit-Remaining-Tokens:
+      - '11986'
+      X-Ratelimit-Reset-Requests:
+      - 6s
+      X-Ratelimit-Reset-Tokens:
+      - 70ms
+      X-Request-Id:
+      - req_01hw9fmsene0srtm0eb8jhddm0
+      Via:
+      - 1.1 google
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=LfoNMl1Q7T_Ersp1U_iEECdQ132gXScTuGFqsm2GggQ-1714010351-1.0.1.1-TUn5PW6rtOzJMaul4cDurTGYsEhoLPIbJiu28U7FCG1pxNB0bP1GQP1by9Nv940ATJJS332dvOoU.dbyx_Spqw;
+        path=/; expires=Thu, 25-Apr-24 02:29:11 GMT; domain=.groq.com; HttpOnly; Secure;
+        SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 879abb759bd6aaf3-SYD
+    body:
+      encoding: UTF-8
+      string: |+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":null,"choices":[{"index":0,"delta":{"role":"assistant","content":""},"logprobs":null,"finish_reason":null}],"x_groq":{"id":"req_01hw9fmsene0srtm0eb8jhddm0"}}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":"The"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":" next"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":" day"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":" after"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":" Wednesday"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":" is"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":" Thursday"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{"content":"!"},"logprobs":null,"finish_reason":null}]}
+
+        data: {"id":"chatcmpl-bb3daaf2-7f1b-4260-bd4d-1f69a8bf4ec2","object":"chat.completion.chunk","created":1714010351,"model":"llama3-8b-8192","system_fingerprint":"fp_af05557ca2","choices":[{"index":0,"delta":{},"logprobs":null,"finish_reason":"stop"}],"x_groq":{"id":"req_01hw9fmsene0srtm0eb8jhddm0","usage":{"queue_time":0.173082861,"prompt_tokens":18,"prompt_time":0.008,"completion_tokens":8,"completion_time":0.008,"total_tokens":26,"total_time":0.016}}}
+
+        data: [DONE]
+
+  recorded_at: Thu, 25 Apr 2024 01:59:11 GMT
+recorded_with: VCR 6.2.0
+...

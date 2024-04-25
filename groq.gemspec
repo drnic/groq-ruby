@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday", "~> 2.0"
   spec.add_dependency "json"
   spec.add_dependency "activesupport", "> 5" # for Concerns
+  spec.add_dependency "event_stream_parser", "~> 1.0"
 
   spec.add_development_dependency "vcr", "~> 6.0"
   spec.add_development_dependency "webmock", "~> 3.0"
