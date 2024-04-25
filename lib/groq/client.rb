@@ -23,7 +23,7 @@ class Groq::Client
   end
 
   # TODO: support stream: true; or &stream block
-  def chat(messages, model_id: nil, tools: nil, max_tokens: nil, temperature: nil, json: false)
+  def chat(messages, model_id: nil, tools: nil, tool_choice: nil, max_tokens: nil, temperature: nil, json: false)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
     end
@@ -38,6 +38,7 @@ class Groq::Client
       model: model_id,
       messages: messages,
       tools: tools,
+      tool_choice: tool_choice,
       max_tokens: max_tokens || @max_tokens,
       temperature: temperature || @temperature,
       response_format: json ? {type: "json_object"} : nil
