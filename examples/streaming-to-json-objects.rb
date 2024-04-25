@@ -49,6 +49,8 @@ prompt = <<~TEXT
   { "name": "Mercury", "position": 1, "description": "Mercury is ..." }
 
   Between each response, say "NEXT" to clearly delineate each JSON response.
+
+  Don't say anything else except the JSON objects above.
 TEXT
 
 # Handle each JSON object once it has been fully streamed
@@ -63,7 +65,7 @@ class PlanetStreamer
       json = JSON.parse(@buffer)
 
       # do something with JSON, e.g. save to database
-      pp json
+      puts json.to_json
 
       # reset buffer
       @buffer = ""

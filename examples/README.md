@@ -50,20 +50,17 @@ Return JSON object for each one:
 { "name": "Mercury", "position": 1, "description": "Mercury is ..." }
 
 Between each response, say "NEXT" to clearly delineate each JSON response.
+
+Don't say anything else except the JSON objects above.
 ```
 
 The code in the repo uses the `NEXT` token to know when to process the JSON object.
 
-The output will look like, with each Ruby Hash object been pretty printed when it has been built from chunks.
+The output will look like, with each JSON object printed (or saved to DB) obly when it has been completely built from chunks.
 
 ```json
-{"name"=>"Mercury",
- "position"=>1,
- "description"=>"Mercury is the smallest planet in our solar system, with a highly elliptical orbit that takes it extremely close to the sun."}
-{"name"=>"Venus",
- "position"=>2,
- "description"=>
-  "Venus is often called Earth's twin due to their similar size and mass, but it has a thick atmosphere that traps heat, making it the hottest planet."}
+{"name":"Mercury","position":1,"description":"Mercury is the smallest planet in our solar system, with a highly elliptical orbit that takes it extremely close to the sun."}
+{"name":"Venus","position":2,"description":"Venus is often called Earth's twin due to their similar size and mass, but it has a thick atmosphere that traps heat, making it the hottest planet."}
 ```
 
 ### Pizzeria
