@@ -399,6 +399,12 @@ You can pass in a second argument to get the full response JSON object:
 end
 ```
 
+Alternately, you can pass a `Proc` or any object that responds to `call` via a `stream:` keyword argument:
+
+```ruby
+@client.chat("Write a long poem about patience", stream: ->(content) { print content })
+```
+
 ## Examples
 
 Here are some example uses of Groq, of the `groq` gem and its syntax.

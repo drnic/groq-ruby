@@ -22,7 +22,7 @@ class Groq::Client
     @faraday_middleware = faraday_middleware
   end
 
-  def chat(messages, model_id: nil, tools: nil, tool_choice: nil, max_tokens: nil, temperature: nil, json: false, &stream_chunk)
+  def chat(messages, model_id: nil, tools: nil, tool_choice: nil, max_tokens: nil, temperature: nil, json: false, stream: nil, &stream_chunk)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
     end
@@ -33,7 +33,7 @@ class Groq::Client
 
     model_id ||= @model_id
 
-    if stream_chunk
+    if stream_chunk ||= stream
       require "event_stream_parser"
     end
 

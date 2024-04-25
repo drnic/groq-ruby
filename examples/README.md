@@ -20,6 +20,16 @@ At the prompt, either talk to the AI agent, or some special commands:
 - `exit` to exit the conversation
 - `summary` to get a summary of the conversation so far
 
+### Streaming
+
+There is also an example of streaming the conversation to terminal as it is received from Groq API.
+
+It defaults to the slower `llama3-70b-8192` model so that the streaming is more noticable.
+
+```bash
+bundle exec examples/groq-user-chat-streaming.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
+```
+
 ### Pizzeria
 
 Run the pizzeria example with the following command:

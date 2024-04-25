@@ -7,8 +7,7 @@ require "yaml"
 include Groq::Helpers
 
 @options = {
-  model: "llama3-8b-8192",
-  # model: "llama3-70b-8192",
+  model: "llama3-70b-8192",
   agent_prompt_path: File.join(File.dirname(__FILE__), "agent-prompts/helloworld.yml"),
   timeout: 20
 }
