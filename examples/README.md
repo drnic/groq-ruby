@@ -5,9 +5,9 @@
 Chat with a pre-defined agent using the following command:
 
 ```bash
-bundle exec examples/groq-user-chat.rb
+bundle exec examples/user-chat.rb
 # or
-bundle exec examples/groq-user-chat.rb --agent-prompt examples/agent-prompts/helloworld.yml
+bundle exec examples/user-chat.rb --agent-prompt examples/agent-prompts/helloworld.yml
 ```
 
 There are two example agent prompts available:
@@ -27,7 +27,7 @@ There is also an example of streaming the conversation to terminal as it is rece
 It defaults to the slower `llama3-70b-8192` model so that the streaming is more noticable.
 
 ```bash
-bundle exec examples/groq-user-chat-streaming.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
+bundle exec examples/user-chat-streaming.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
 ```
 
 ### Pizzeria
@@ -35,7 +35,7 @@ bundle exec examples/groq-user-chat-streaming.rb --agent-prompt examples/agent-p
 Run the pizzeria example with the following command:
 
 ```bash
-bundle exec examples/groq-user-chat.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
+bundle exec examples/user-chat.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
 ```
 
 > 🍕 Hello! Thank you for calling our pizzeria. I'm happy to help you with your inquiry. Do you have a question about our menu or would you like to place an order?
