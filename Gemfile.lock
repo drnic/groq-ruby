@@ -3,6 +3,7 @@ PATH
   specs:
     groq (0.2.0)
       activesupport (> 5)
+      event_stream_parser (~> 1.0)
       faraday (~> 2.0)
       json
 
@@ -57,6 +58,7 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
+    event_stream_parser (1.0.0)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)

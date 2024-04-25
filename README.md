@@ -352,6 +352,53 @@ If you pass `--debug` to `bin/console` you will have this logger setup for you.
 bin/console --debug
 ```
 
+### Streaming
+
+If your AI assistant responses are being telecast live to a human, then that human might want some progressive responses. The Groq API supports streaming responses.
+
+Pass a block to `chat()` with either one or two arguments.
+
+1. The first argument is the string content chunk of the response.
+2. The optional second argument is the full response object from the API containing extra metadata.
+
+The final block call will be the last chunk of the response:
+
+1. The first argument will be `nil`
+2. The optional second argument, the full response object, contains a summary of the Groq API usage, such as prompt tokens, prompt time, etc.
+
+```ruby
+puts "🍕 "
+messages = [
+  S("You are a pizza sales person."),
+  U("What do you sell?")
+]
+@client.chat(messages) do |content|
+  print content
+end
+puts
+```
+
+Each chunk of the response will be printed to the console as it is received. It will look pretty.
+
+The default `llama3-7b-8192` model is very very fast and you might not see any streaming. Try a slower model like `llama3-70b-8192` or `mixtral-8x7b-32768`.
+
+```ruby
+@client = Groq::Client.new(model_id: "llama3-70b-8192")
+@client.chat("Write a long poem about patience") do |content|
+  print content
+end
+puts
+```
+
+You can pass in a second argument to get the full response JSON object:
+
+```ruby
+@client.chat("Write a long poem about patience") do |content, response|
+  pp content
+  pp response
+end
+```
+
 ## Examples
 
 Here are some example uses of Groq, of the `groq` gem and its syntax.

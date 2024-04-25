@@ -22,8 +22,7 @@ class Groq::Client
     @faraday_middleware = faraday_middleware
   end
 
-  # TODO: support stream: true; or &stream block
-  def chat(messages, model_id: nil, tools: nil, tool_choice: nil, max_tokens: nil, temperature: nil, json: false)
+  def chat(messages, model_id: nil, tools: nil, tool_choice: nil, max_tokens: nil, temperature: nil, json: false, &stream_chunk)
     unless messages.is_a?(Array) || messages.is_a?(String)
       raise ArgumentError, "require messages to be an Array or String"
     end
@@ -34,6 +33,10 @@ class Groq::Client
 
     model_id ||= @model_id
 
+    if stream_chunk
+      require "event_stream_parser"
+    end
+
     body = {
       model: model_id,
       messages: messages,
@@ -41,33 +44,26 @@ class Groq::Client
       tool_choice: tool_choice,
       max_tokens: max_tokens || @max_tokens,
       temperature: temperature || @temperature,
-      response_format: json ? {type: "json_object"} : nil
+      response_format: json ? {type: "json_object"} : nil,
+      stream_chunk: stream_chunk
     }.compact
     response = post(path: "/openai/v1/chat/completions", body: body)
-    if response.status == 200
-      response.body.dig("choices", 0, "message")
-    else
-      # TODO: send the response.body back in Error object
-      puts "Error: #{response.status}"
-      pp response.body
-      raise Error, "Request failed with status #{response.status}: #{response.body}"
+    # Configured to raise exceptions on 4xx/5xx responses
+    if response.body.is_a?(Hash)
+      return response.body.dig("choices", 0, "message")
     end
+    response.body
   end
 
   def get(path:)
-    client.get do |req|
-      req.url path
-      req.headers["Authorization"] = "Bearer #{@api_key}"
-      req.headers["User-Agent"] = "groq-ruby/#{Groq::VERSION}"
+    client.get(path) do |req|
+      req.headers = headers
     end
   end
 
   def post(path:, body:)
-    client.post do |req|
-      req.url path
-      req.headers["Authorization"] = "Bearer #{@api_key}"
-      req.headers["User-Agent"] = "groq-ruby/#{Groq::VERSION}"
-      req.body = body
+    client.post(path) do |req|
+      configure_json_post_request(req, body)
     end
   end
 
@@ -85,5 +81,69 @@ class Groq::Client
 
       connection
     end
+  end
+
+  private
+
+  def headers
+    {
+      "Authorization" => "Bearer #{@api_key}",
+      "User-Agent" => "groq-ruby/#{Groq::VERSION}"
+    }
+  end
+
+  #
+  # Code/ideas borrowed from lib/openai/http.rb in https://github.com/alexrudall/ruby-openai/
+  #
+
+  def configure_json_post_request(req, body)
+    req_body = body.dup
+
+    if body[:stream_chunk].respond_to?(:call)
+      req.options.on_data = to_json_stream(user_proc: body[:stream_chunk])
+      req_body[:stream] = true # Tell Groq to stream
+      req_body.delete(:stream_chunk)
+    elsif body[:stream_chunk]
+      raise ArgumentError, "The stream_chunk parameter must be a Proc or have a #call method"
+    end
+
+    req.headers = headers
+    req.body = req_body
+  end
+
+  # Given a proc, returns an outer proc that can be used to iterate over a JSON stream of chunks.
+  # For each chunk, the inner user_proc is called giving it the JSON object. The JSON object could
+  # be a data object or an error object as described in the OpenAI API documentation.
+  #
+  # @param user_proc [Proc] The inner proc to call for each JSON object in the chunk.
+  # @return [Proc] An outer proc that iterates over a raw stream, converting it to JSON.
+  def to_json_stream(user_proc:)
+    parser = EventStreamParser::Parser.new
+
+    proc do |chunk, _bytes, env|
+      if env && env.status != 200
+        raise_error = Faraday::Response::RaiseError.new
+        raise_error.on_complete(env.merge(body: try_parse_json(chunk)))
+      end
+
+      parser.feed(chunk) do |_type, data|
+        next if data == "[DONE]"
+        chunk = JSON.parse(data)
+        delta = chunk.dig("choices", 0, "delta")
+        content = delta.dig("content")
+        # if user_proc takes one argument, pass the content
+        if user_proc.arity == 1
+          user_proc.call(content)
+        else
+          user_proc.call(content, chunk)
+        end
+      end
+    end
+  end
+
+  def try_parse_json(maybe_json)
+    JSON.parse(maybe_json)
+  rescue JSON::ParserError
+    maybe_json
   end
 end
