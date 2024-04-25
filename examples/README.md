@@ -20,7 +20,7 @@ At the prompt, either talk to the AI agent, or some special commands:
 - `exit` to exit the conversation
 - `summary` to get a summary of the conversation so far
 
-### Streaming
+### Streaming text chunks
 
 There is also an example of streaming the conversation to terminal as it is received from Groq API.
 
@@ -28,6 +28,42 @@ It defaults to the slower `llama3-70b-8192` model so that the streaming is more 
 
 ```bash
 bundle exec examples/user-chat-streaming.rb --agent-prompt examples/agent-prompts/pizzeria-sales.yml
+```
+
+### Streaming useful chunks (e.g. JSON)
+
+If the response is returning a list of objects, such as a sequence of JSON objects, you can try to stream the chunks that make up the JSON objects and process them as soon as they are complete.
+
+```bash
+bundle exec examples/streaming-to-json-objects.rb
+```
+
+This will produce JSON for each planet in the solar system, one at a time. The API does not return each JSON as a chunk, rather it only returns `{` and `"` and `name` as distinct chunks. But the example code [`examples/streaming-to-json-objects.rb`](examples/streaming-to-json-objects.rb) shows how you might build up JSON objects from chunks, and process it (e.g. store to DB) as soon as it is complete.
+
+The system prompt used is:
+
+```plain
+Write out the names of the planets of our solar system, and a brief description of each one.
+
+Return JSON object for each one:
+
+{ "name": "Mercury", "position": 1, "description": "Mercury is ..." }
+
+Between each response, say "NEXT" to clearly delineate each JSON response.
+```
+
+The code in the repo uses the `NEXT` token to know when to process the JSON object.
+
+The output will look like, with each Ruby Hash object been pretty printed when it has been built from chunks.
+
+```json
+{"name"=>"Mercury",
+ "position"=>1,
+ "description"=>"Mercury is the smallest planet in our solar system, with a highly elliptical orbit that takes it extremely close to the sun."}
+{"name"=>"Venus",
+ "position"=>2,
+ "description"=>
+  "Venus is often called Earth's twin due to their similar size and mass, but it has a thick atmosphere that traps heat, making it the hottest planet."}
 ```
 
 ### Pizzeria
