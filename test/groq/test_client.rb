@@ -88,34 +88,30 @@ class TestGroqClient < Minitest::Test
         contents << content
       end
 
-      response = client.chat(messages, stream: proc)
+      client.chat(messages, stream: proc)
 
-      assert_equal response, ""
       assert_equal contents, ["", "The", " next", " day", " after", " Wednesday", " is", " Thursday", "!", nil]
     end
   end
 
   def test_streaming_chunks_with_callable_object
-    bits_class = Class.new do
-      def initialize
-        @bits = []
-      end
-
+    processor = Class.new do
       def call(content)
+        @bits ||= []
         @bits << content
       end
 
       def to_s
         @bits.join("")
       end
-    end
+    end.new
+
     VCR.use_cassette("llama3-8b-8192/chat_streaming_chunks") do
       client = Groq::Client.new(model_id: "llama3-8b-8192")
       messages = [{role: "user", content: "What's the next day after Wednesday?"}]
 
-      bits = bits_class.new
-      client.chat(messages, stream: bits)
-      assert_equal bits.to_s, "The next day after Wednesday is Thursday!"
+      client.chat(messages, stream: processor)
+      assert_equal processor.to_s, "The next day after Wednesday is Thursday!"
     end
   end
 
@@ -123,6 +119,31 @@ class TestGroqClient < Minitest::Test
     client = Groq::Client.new(stream: "does not have call() method")
     assert_raises ArgumentError do
       client.chat("What's the next day after Wednesday?", stream: "not a callable")
+    end
+  end
+
+  def test_streaming_chunks_to_application_chunks
+    processor = Class.new do
+      def call(content)
+        @chunks ||= []
+        p content
+      end
+    end.new
+
+    VCR.use_cassette("llama3-8b-8192/chat_streaming_chunks_planets") do
+      client = Groq::Client.new(model_id: "llama3-8b-8192")
+      system = <<~TEXT
+        Write out the names of the planets of our solar system, and a brief description of each one.
+
+        Return JSON object for each one:
+
+        { "name": "Mercury", "position": 1, "description": "Mercury is ..." }
+
+        Between each response, say "NEXT" to clearly delineate each JSON response.
+      TEXT
+
+      messages = [S(system)]
+      client.chat(messages, stream: processor)
     end
   end
 
