@@ -60,11 +60,14 @@ JSON.parse(response["content"])
 
 Install the gem and add to the application's Gemfile by executing:
 
-> bundle add groq
+```plain
+bundle add groq
 ```
+
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-> gem install groq
+```plain
+gem install groq
 ```
 ## Usage
 
@@ -72,8 +75,8 @@ If bundler is not being used to manage dependencies, install the gem by executin
 - Place in env var `GROQ_API_KEY`, or explicitly pass into configuration below.
 - Use the `Groq::Client` to interact with Groq and your favourite model.
 
-```shell
-  rails g groq:install
+```plain
+rails g groq:install
 ```
 to generate inializer file
 
