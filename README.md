@@ -72,11 +72,16 @@ If bundler is not being used to manage dependencies, install the gem by executin
 - Place in env var `GROQ_API_KEY`, or explicitly pass into configuration below.
 - Use the `Groq::Client` to interact with Groq and your favourite model.
 
+```shell
+  rails g groq:install
+```
+to generate inializer file
+
 ```ruby
 client = Groq::Client.new # uses ENV["GROQ_API_KEY"] and "llama3-8b-8192"
 client = Groq::Client.new(api_key: "...", model_id: "llama3-8b-8192")
 
-Groq.configuration do |config|
+Groq.configure do |config|
   config.api_key = "..."
   config.model_id = "llama3-70b-8192"
 end
@@ -160,7 +165,7 @@ As above, you can specify the default model to use for all `chat()` calls:
 ```ruby
 client = Groq::Client.new(model_id: "llama3-70b-8192")
 # or
-Groq.configuration do |config|
+Groq.configure do |config|
   config.model_id = "llama3-70b-8192"
 end
 ```
@@ -318,10 +323,10 @@ The defaults are:
 => 1
 ```
 
-You can override them in the `Groq.configuration` block, or with each `chat()` call:
+You can override them in the `Groq.configure` block, or with each `chat()` call:
 
 ```ruby
-Groq.configuration do |config|
+Groq.configure do |config|
   config.max_tokens = 512
   config.temperature = 0.5
 end
