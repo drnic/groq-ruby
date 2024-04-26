@@ -75,11 +75,6 @@ gem install groq
 - Place in env var `GROQ_API_KEY`, or explicitly pass into configuration below.
 - Use the `Groq::Client` to interact with Groq and your favourite model.
 
-```plain
-rails g groq:install
-```
-to generate inializer file
-
 ```ruby
 client = Groq::Client.new # uses ENV["GROQ_API_KEY"] and "llama3-8b-8192"
 client = Groq::Client.new(api_key: "...", model_id: "llama3-8b-8192")
@@ -89,6 +84,12 @@ Groq.configure do |config|
   config.model_id = "llama3-70b-8192"
 end
 client = Groq::Client.new
+```
+
+In a Rails application, you can generate a `config/initializer/groq.rb` file with:
+
+```plain
+rails g groq:install
 ```
 
 There is a simple chat function to send messages to a model:
@@ -109,8 +110,10 @@ client.chat([
 
 ### Interactive console (IRb)
 
-> bin/console
+```plain
+bin/console
 ```
+
 This repository has a `bin/console` script to start an interactive console to play with the Groq API. The `@client` variable is setup using `$GROQ_API_KEY` environment variable; and the `U`, `A`, `T` helpers are already included.
 
 ```ruby
