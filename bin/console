@@ -25,7 +25,7 @@ end
 @client = Groq::Client.new do |faraday|
   if debug?
     # Create a logger instance
-    logger = Logger.new(STDOUT)
+    logger = Logger.new($stdout)
     logger.level = Logger::DEBUG
 
     # Log request and response bodies
